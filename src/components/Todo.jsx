@@ -1,0 +1,45 @@
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
+import Grid from '@mui/material/Grid';
+import IconButton from '@mui/material/IconButton';
+import DeleteIcon from '@mui/icons-material/Delete';
+import CheckIcon from '@mui/icons-material/Check';
+import EditIcon from '@mui/icons-material/Edit';
+
+function Todo() {
+
+  return (
+    <>
+      <Card sx={{ minWidth: 275, background: '#6A1B9A', color: 'white', marginTop: 5 }}>
+        <CardContent>
+          <Grid container spacing={2}>
+            <Grid size={{xs: 7, sm:8}}>
+              <Typography variant='h5' sx={{ textAlign: 'right' }} gutterBottom>
+                المهمه الاولي
+              </Typography>
+            </Grid>
+
+            {/* Action Icons */}
+            <Grid size={{xs: 5, sm:4}} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 1 }}>
+              <IconButton size='small' aria-label="delete" sx={{ color: '#4CAF50', background: 'white', border: 'solid 3px #4CAF50' }}>
+                <CheckIcon />
+              </IconButton>
+              <IconButton size='small' aria-label="delete" sx={{ color: '#2196F3', background: 'white', border: 'solid 3px #2196F3' }}>
+                <EditIcon />
+              </IconButton>
+              <IconButton size='small' aria-label="delete" sx={{ color: '#F44336', background: 'white', border: 'solid 3px #F44336' }}>
+                <DeleteIcon />
+              </IconButton>
+            </Grid>
+            {/* Action Icons */}
+
+          </Grid>
+        </CardContent>
+      </Card>
+    </>
+  )
+};
+export default Todo
+

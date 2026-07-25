@@ -9,6 +9,9 @@ import { Divider } from '@mui/material';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 
+//components
+import Todo from './Todo';
+
 export default function TodoList() {
   return (
     <Container maxWidth="sm">
@@ -18,20 +21,25 @@ export default function TodoList() {
             مهامي
           </Typography>
           <Divider />
+
           {/* filter Buttons */}
           <ToggleButtonGroup
             color="primary"
             exclusive
-            style={{ marginTop: '30px' }}>
+            style={{ marginTop: '30px',
+            direction: 'ltr'}}>
             <ToggleButton value="web">غير مكتمل</ToggleButton>
             <ToggleButton value="android">مكتمل</ToggleButton>
             <ToggleButton value="ios">الكل</ToggleButton>
           </ToggleButtonGroup>
           {/* //filter Buttons */}
+
+          {/* All Todos */}
+          <Todo />
+          {/* // All Todos */}
+
         </CardContent>
-        <CardActions>
-          <Button size="small">Learn More</Button>
-        </CardActions>
+        
       </Card>
     </Container>
   );

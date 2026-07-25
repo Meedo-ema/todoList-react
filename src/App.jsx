@@ -4,7 +4,7 @@ function App() {
 
   return (
     <div
-    style={{backgroundColor: '#b71c1c',
+    style={{backgroundColor: "#1E1E2F",
         display: 'flex',
         justifyContent : 'center',
         alignItems: 'center',
