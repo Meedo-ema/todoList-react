@@ -10,7 +10,10 @@ import CheckIcon from '@mui/icons-material/Check';
 import EditIcon from '@mui/icons-material/Edit';
 import '../App.css'
 
-function Todo({ title, details }) {
+function Todo({ todo, handleCheck }) {
+  function handleCheckClick(){
+    handleCheck(todo.id)
+  }
 
   return (
     <>
@@ -19,25 +22,30 @@ function Todo({ title, details }) {
           <Grid container spacing={2}>
             <Grid size={{ xs: 7, sm: 8 }}>
               <Typography variant='h4' sx={{ textAlign: 'start', fontSize: { xs: '1.2rem', sm: '1.5rem', md: '1.8rem' } }} gutterBottom>
-                {title}
+                {todo.title}
               </Typography>
               <Typography variant='h6' sx={{ textAlign: 'start', fontSize: { xs: '.9rem', sm: '1rem', md: '1.1rem' } }} gutterBottom>
-                {details}
+                {todo.details}
               </Typography>
             </Grid>
 
             {/* Action Icons */}
             <Grid size={{ xs: 5, sm: 4 }} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: { xs: 1, sm: 2, md: 3 } }}>
 
-              <IconButton className='iconButton' aria-label="delete" sx={{ width: { xs: 34, sm: 50 }, height: { xs: 34, sm: 50 }, color: '#4CAF50', background: 'white', border: 'solid 3px #4CAF50' }}>
+              <IconButton onClick={() => {
+                handleCheckClick()
+              }} className='iconButton' aria-label="delete" sx={{ width: { xs: 34, sm: 50 }, height: { xs: 34, sm: 50 }, color: todo.isComplete ? 'white' : '#4CAF50', background: todo.isComplete ? "#4CAF50" :'white', border: todo.isComplete ? "solid 3px white" : "solid 3px #4CAF50"}}>
                 <CheckIcon />
               </IconButton>
+
               <IconButton className='iconButton' aria-label="delete" sx={{ width: { xs: 34, sm: 50 }, height: { xs: 34, sm: 50 }, color: '#2196F3', background: 'white', border: 'solid 3px #2196F3' }}>
                 <EditIcon />
               </IconButton>
+
               <IconButton className='iconButton' aria-label="delete" sx={{ width: { xs: 34, sm: 50 }, height: { xs: 34, sm: 50 }, color: '#F44336', background: 'white', border: 'solid 3px #F44336' }}>
                 <DeleteIcon />
               </IconButton>
+
             </Grid>
             {/* Action Icons */}
 
