@@ -9,53 +9,26 @@ import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { useState } from 'react';
+import { v4 as uuidv4 } from 'uuid';
+
 //components
 import Todo from './Todo';
 
-//OTHER
-import { v4 as uuidv4 } from 'uuid';
-
-let intialTodos = [
-  {
-    id: uuidv4(),
-    title: 'قراءة كتاب',
-    details: 'الانتهاء في يومين',
-    isComplete: false
-  },
-  {
-    id: uuidv4(),
-    title: 'قراءة كتاب',
-    details: 'الانتهاء في يومين',
-    isComplete: false
-  },
-  {
-    id: uuidv4(),
-    title: 'قراءة كتاب',
-    details: 'الانتهاء في يومين',
-    isComplete: false
-  },
-]
+//context
+import { TododContext } from '../assets/contexts/todoContext';
+import { useContext } from 'react';
 
 export default function TodoList() {
-  const [todos, setTodos] = useState(intialTodos)
+  const { todos, setTodos } = useContext(TododContext)
   const [titleInput, setTitleInput] = useState("")
 
-  function handleCheckClick(todoId){
-    const updatedTodos = todos.map((t) => {
-      if(t.id == todoId){
-        t.isComplete = !t.isComplete
-      }
-      return t
-    })
-    setTodos(updatedTodos)
-  }
   const todosList = todos.map((t) => {
-    return <Todo todo={t} key={t.id} handleCheck={handleCheckClick}/>
+    return <Todo todo={t} key={t.id} />
   })
 
   function handleAddClick() {
-    const newTodo ={
-      id: uuidv4,
+    const newTodo = {
+      id: uuidv4(),
       title: titleInput,
       details: "",
       isComplete: false
