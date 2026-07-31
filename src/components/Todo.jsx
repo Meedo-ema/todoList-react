@@ -21,12 +21,19 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import TextField from '@mui/material/TextField';
+
 
 function Todo({ todo }) {
   const { todos, setTodos } = useContext(TododContext)
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
+  const [openUpdateDialog, setOpenUpdateDialog] = useState(false);
+  const [updatedTodo, setUpdatedTodo] = useState({ title: todo.title, details: todo.details });
+
 
   // Dialog Events
+
+  // Delete Dialoge
   function handleOpenDeleteDialog() {
     setOpenDeleteDialog(true)
   }
@@ -35,12 +42,33 @@ function Todo({ todo }) {
     setOpenDeleteDialog(false)
   }
 
-  function handleConfirmDelete(){
+  function handleConfirmDelete() {
     const updatedTodos = todos.filter((t) => {
       return t.id !== todo.id
     })
     setTodos(updatedTodos)
   }
+
+  //Update Dialog
+  function handleOpenUpdateDialog() {
+    setOpenUpdateDialog(true)
+  }
+
+  function handleCloseUpdateDialog() {
+    setOpenUpdateDialog(false)
+  }
+
+  function handleConfirmUpdate() {
+    const updatedTodos = todos.map((t) => {
+      if (t.id == todo.id) {
+        return { ...t, title: updatedTodo.title, details: updatedTodo.details }
+      }
+      return t
+    })
+    setTodos(updatedTodos)
+    setOpenUpdateDialog(false)
+  }
+
   // Dialog Events
 
   function handleCheckClick() {
@@ -55,7 +83,7 @@ function Todo({ todo }) {
 
   return (
     <>
-      {/* modal */}
+      {/* Delete modal */}
       <Dialog
         open={openDeleteDialog}
         onClose={handleCloseDeleteDialog}
@@ -63,12 +91,12 @@ function Todo({ todo }) {
         aria-describedby="alert-dialog-description"
         role="alertdialog"
       >
-        <DialogTitle sx={{color: 'black'}} id="alert-dialog-title">
-    هل أنت متأكد من حذف هذه المهمه ؟
+        <DialogTitle sx={{ color: 'black' }} id="alert-dialog-title">
+          هل أنت متأكد من حذف هذه المهمه ؟
         </DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-    تتبيه : لايمكنك التراجع بعد تأكيد الحذف.
+            تتبيه : لايمكنك التراجع بعد تأكيد الحذف.
           </DialogContentText>
         </DialogContent>
         <DialogActions>
@@ -78,7 +106,54 @@ function Todo({ todo }) {
           <Button onClick={handleConfirmDelete}>حذف</Button>
         </DialogActions>
       </Dialog>
-      {/* modal */}
+      {/* Delete modal */}
+
+      {/* Update modal */}
+      <Dialog
+        open={openUpdateDialog}
+        onClose={handleCloseUpdateDialog}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+        role="alertdialog"
+      >
+        <DialogTitle sx={{ coloa: 'black' }} id="alert-dialog-title">
+          تعديل المهم
+        </DialogTitle>
+        <DialogContent>
+          <TextField
+            autoFocus
+            required
+            margin="dense"
+            label="عنوان المهمه"
+            fullWidth
+            variant="standard"
+            value={updatedTodo.title}
+            onChange={(e) => {
+              setUpdatedTodo({ ...updatedTodo, title: e.target.value })
+            }}
+          />
+          <TextField
+            autoFocus
+            required
+            margin="dense"
+            label="تفاصيل المهمه"
+            fullWidth
+            variant="standard"
+            value={updatedTodo.details}
+            onChange={(e) => {
+              setUpdatedTodo({ ...updatedTodo, details: e.target.value })
+            }}
+          />
+
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseUpdateDialog} autoFocus>
+            إغلاق
+          </Button>
+          <Button onClick={handleConfirmUpdate}>تعديل</Button>
+        </DialogActions>
+      </Dialog>
+      {/* Update modal */}
 
       {/* Todo Card */}
       <Card className='todoCard' sx={{ minWidth: 275, background: '#6A1B9A', color: 'white', marginTop: 5 }}>
@@ -103,7 +178,10 @@ function Todo({ todo }) {
                 <CheckIcon />
               </IconButton>
 
-              <IconButton className='iconButton' aria-label="delete" sx={{ width: { xs: 34, sm: 50 }, height: { xs: 34, sm: 50 }, color: '#2196F3', background: 'white', border: 'solid 3px #2196F3' }}>
+              <IconButton onClick={() => {
+                handleOpenUpdateDialog()
+              }}
+                className='iconButton' aria-label="delete" sx={{ width: { xs: 34, sm: 50 }, height: { xs: 34, sm: 50 }, color: '#2196F3', background: 'white', border: 'solid 3px #2196F3' }}>
                 <EditIcon />
               </IconButton>
 
