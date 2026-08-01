@@ -47,6 +47,7 @@ function Todo({ todo }) {
       return t.id !== todo.id
     })
     setTodos(updatedTodos)
+    localStorage.setItem('todos', JSON.stringify(updatedTodos))
   }
 
   //Update Dialog
@@ -66,6 +67,7 @@ function Todo({ todo }) {
       return t
     })
     setTodos(updatedTodos)
+    localStorage.setItem('todos', JSON.stringify(updatedTodos))
     setOpenUpdateDialog(false)
   }
 
@@ -79,6 +81,7 @@ function Todo({ todo }) {
       return t
     })
     setTodos(updatedTodos)
+    localStorage.setItem('todos', JSON.stringify(updatedTodos))
   }
 
   return (

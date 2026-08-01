@@ -8,7 +8,6 @@ import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-import { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
 //components
@@ -16,7 +15,7 @@ import Todo from './Todo';
 
 //context
 import { TododContext } from '../assets/contexts/todoContext';
-import { useContext } from 'react';
+import { useState, useContext, useEffect } from 'react';
 
 export default function TodoList() {
   const { todos, setTodos } = useContext(TododContext)
@@ -26,6 +25,11 @@ export default function TodoList() {
     return <Todo todo={t} key={t.id} />
   })
 
+  useEffect(() => {
+    const storageTodos = JSON.parse(localStorage.getItem("todos"))
+    setTodos(storageTodos)
+  }, [])
+
   function handleAddClick() {
     const newTodo = {
       id: uuidv4(),
@@ -33,7 +37,9 @@ export default function TodoList() {
       details: "",
       isComplete: false
     }
-    setTodos([...todos, newTodo])
+    const updatedTodos = [...todos, newTodo];
+    setTodos(updatedTodos)
+    localStorage.setItem('todos', JSON.stringify(updatedTodos))
     setTitleInput("")
   }
 
