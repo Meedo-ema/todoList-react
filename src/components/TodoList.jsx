@@ -49,7 +49,7 @@ export default function TodoList() {
   //Filter Displayed Todos
 
   useEffect(() => {
-    const storageTodos = JSON.parse(localStorage.getItem("todos"))
+    const storageTodos = JSON.parse(localStorage.getItem("todos")) ?? []
     setTodos(storageTodos)
   }, [])
 
