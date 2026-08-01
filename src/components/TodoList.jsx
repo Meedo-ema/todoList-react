@@ -20,10 +20,33 @@ import { useState, useContext, useEffect } from 'react';
 export default function TodoList() {
   const { todos, setTodos } = useContext(TododContext)
   const [titleInput, setTitleInput] = useState("")
+  const [displayedTodosType, setDisplayedTodosType] = useState("all")
 
-  const todosList = todos.map((t) => {
+
+  //Filter Displayed Todos
+  const completedTodos = todos.filter((t) => {
+    return t.isComplete
+  })
+
+  const notCompletedTodos = todos.filter((t) => {
+    return !t.isComplete
+  })
+
+  let todosToBeRendered = todos
+  if (displayedTodosType == 'completed') {
+    todosToBeRendered = completedTodos
+  } else if (displayedTodosType == 'not-completed') {
+    todosToBeRendered = notCompletedTodos
+  }
+
+  const todosList = todosToBeRendered.map((t) => {
     return <Todo todo={t} key={t.id} />
   })
+
+  function changeDisplayedType(e) {
+    setDisplayedTodosType(e.target.value)
+  }
+  //Filter Displayed Todos
 
   useEffect(() => {
     const storageTodos = JSON.parse(localStorage.getItem("todos"))
@@ -56,13 +79,15 @@ export default function TodoList() {
           <ToggleButtonGroup
             color="primary"
             exclusive
+            value={displayedTodosType}
+            onChange={changeDisplayedType}
             style={{
               marginTop: '30px',
               direction: 'ltr'
             }}>
-            <ToggleButton value="web">غير مكتمل</ToggleButton>
-            <ToggleButton value="android">مكتمل</ToggleButton>
-            <ToggleButton value="ios">الكل</ToggleButton>
+            <ToggleButton value="not-completed" >غير مكتمل</ToggleButton>
+            <ToggleButton value="completed">مكتمل</ToggleButton>
+            <ToggleButton value="all">الكل</ToggleButton>
           </ToggleButtonGroup>
           {/* //filter Buttons */}
 
