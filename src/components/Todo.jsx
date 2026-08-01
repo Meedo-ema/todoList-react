@@ -163,7 +163,7 @@ function Todo({ todo }) {
         <CardContent>
           <Grid container spacing={2}>
             <Grid size={{ xs: 7, sm: 8 }}>
-              <Typography variant='h4' sx={{ textAlign: 'start', fontSize: { xs: '1.2rem', sm: '1.5rem', md: '1.8rem' } }} gutterBottom>
+              <Typography variant='h4' sx={{ textAlign: 'start', fontSize: { xs: '1.2rem', sm: '1.5rem', md: '1.8rem' }, textDecoration : todo.isComplete ? 'line-through' : 'none' }} gutterBottom>
                 {todo.title}
               </Typography>
               <Typography variant='h6' sx={{ textAlign: 'start', fontSize: { xs: '.9rem', sm: '1rem', md: '1.1rem' } }} gutterBottom>

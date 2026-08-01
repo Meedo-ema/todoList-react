@@ -68,7 +68,7 @@ export default function TodoList() {
 
   return (
     <Container maxWidth='md'>
-      <Card sx={{ width: '100%' }}>
+      <Card sx={{ width: '100%', maxHeight: '80vh', overflow: 'scroll' }}>
         <CardContent>
           <Typography variant='h2' gutterBottom sx={{ color: 'text.secondary', fontWeight: 'bold' }}>
             مهامي
@@ -105,9 +105,11 @@ export default function TodoList() {
             </Grid>
 
             <Grid size={{ xs: 5, sm: 4 }}>
-              <Button sx={{ width: '100%', height: '100%' }} variant="contained" onClick={() => {
-                handleAddClick();
-              }}>إضافة</Button>
+              <Button sx={{ width: '100%', height: '100%' }} variant="contained"
+                disabled={titleInput == 0}
+                onClick={() => {
+                  handleAddClick();
+                }}>إضافة</Button>
 
             </Grid>
 
