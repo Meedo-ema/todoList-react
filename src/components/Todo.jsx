@@ -1,76 +1,28 @@
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
-import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import IconButton from '@mui/material/IconButton';
 
 //context
 import { TododContext } from '../assets/contexts/todoContext';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 
 import DeleteIcon from '@mui/icons-material/Delete';
 import CheckIcon from '@mui/icons-material/Check';
 import EditIcon from '@mui/icons-material/Edit';
 import '../App.css'
-import { useState } from 'react';
 
-//modal
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
-import TextField from '@mui/material/TextField';
-
-
-function Todo({ todo }) {
+function Todo({ todo, showDeleteDialog, showUpdateDialog }) {
   const { todos, setTodos } = useContext(TododContext)
-  const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
-  const [openUpdateDialog, setOpenUpdateDialog] = useState(false);
-  const [updatedTodo, setUpdatedTodo] = useState({ title: todo.title, details: todo.details });
-
-
-  // Dialog Events
-
-  // Delete Dialoge
+    // Dialog Events
   function handleOpenDeleteDialog() {
-    setOpenDeleteDialog(true)
+    showDeleteDialog(todo)
   }
 
-  function handleCloseDeleteDialog() {
-    setOpenDeleteDialog(false)
-  }
-
-  function handleConfirmDelete() {
-    const updatedTodos = todos.filter((t) => {
-      return t.id !== todo.id
-    })
-    setTodos(updatedTodos)
-    localStorage.setItem('todos', JSON.stringify(updatedTodos))
-  }
-
-  //Update Dialog
   function handleOpenUpdateDialog() {
-    setOpenUpdateDialog(true)
+    showUpdateDialog(todo)
   }
-
-  function handleCloseUpdateDialog() {
-    setOpenUpdateDialog(false)
-  }
-
-  function handleConfirmUpdate() {
-    const updatedTodos = todos.map((t) => {
-      if (t.id == todo.id) {
-        return { ...t, title: updatedTodo.title, details: updatedTodo.details }
-      }
-      return t
-    })
-    setTodos(updatedTodos)
-    localStorage.setItem('todos', JSON.stringify(updatedTodos))
-    setOpenUpdateDialog(false)
-  }
-
   // Dialog Events
 
   function handleCheckClick() {
@@ -86,84 +38,12 @@ function Todo({ todo }) {
 
   return (
     <>
-      {/* Delete modal */}
-      <Dialog
-        open={openDeleteDialog}
-        onClose={handleCloseDeleteDialog}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-        role="alertdialog"
-      >
-        <DialogTitle sx={{ color: 'black' }} id="alert-dialog-title">
-          هل أنت متأكد من حذف هذه المهمه ؟
-        </DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            تتبيه : لايمكنك التراجع بعد تأكيد الحذف.
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleCloseDeleteDialog} autoFocus>
-            تراجع
-          </Button>
-          <Button onClick={handleConfirmDelete}>حذف</Button>
-        </DialogActions>
-      </Dialog>
-      {/* Delete modal */}
-
-      {/* Update modal */}
-      <Dialog
-        open={openUpdateDialog}
-        onClose={handleCloseUpdateDialog}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-        role="alertdialog"
-      >
-        <DialogTitle sx={{ coloa: 'black' }} id="alert-dialog-title">
-          تعديل المهم
-        </DialogTitle>
-        <DialogContent>
-          <TextField
-            autoFocus
-            required
-            margin="dense"
-            label="عنوان المهمه"
-            fullWidth
-            variant="standard"
-            value={updatedTodo.title}
-            onChange={(e) => {
-              setUpdatedTodo({ ...updatedTodo, title: e.target.value })
-            }}
-          />
-          <TextField
-            autoFocus
-            required
-            margin="dense"
-            label="تفاصيل المهمه"
-            fullWidth
-            variant="standard"
-            value={updatedTodo.details}
-            onChange={(e) => {
-              setUpdatedTodo({ ...updatedTodo, details: e.target.value })
-            }}
-          />
-
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleCloseUpdateDialog} autoFocus>
-            إغلاق
-          </Button>
-          <Button onClick={handleConfirmUpdate}>تعديل</Button>
-        </DialogActions>
-      </Dialog>
-      {/* Update modal */}
-
       {/* Todo Card */}
       <Card className='todoCard' sx={{ minWidth: 275, background: '#6A1B9A', color: 'white', marginTop: 5 }}>
         <CardContent>
           <Grid container spacing={2}>
             <Grid size={{ xs: 7, sm: 8 }}>
-              <Typography variant='h4' sx={{ textAlign: 'start', fontSize: { xs: '1.2rem', sm: '1.5rem', md: '1.8rem' }, textDecoration : todo.isComplete ? 'line-through' : 'none' }} gutterBottom>
+              <Typography variant='h4' sx={{ textAlign: 'start', fontSize: { xs: '1.2rem', sm: '1.5rem', md: '1.8rem' }, textDecoration: todo.isComplete ? 'line-through' : 'none' }} gutterBottom>
                 {todo.title}
               </Typography>
               <Typography variant='h6' sx={{ textAlign: 'start', fontSize: { xs: '.9rem', sm: '1rem', md: '1.1rem' } }} gutterBottom>
