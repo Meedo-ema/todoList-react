@@ -22,18 +22,19 @@ import TextField from '@mui/material/TextField';
 import Todo from './Todo';
 
 //context
-import { TododContext } from '../assets/contexts/todoContext';
+import { TododContext } from '../contexts/todoContext';
+import { useToast } from '../contexts/ToastContext';
 import { useState, useContext, useEffect, useMemo } from 'react';
 
 export default function TodoList() {
   const { todos, setTodos } = useContext(TododContext)
+  const {showHideToast} = useToast()
   const [titleInput, setTitleInput] = useState("")
   const [displayedTodosType, setDisplayedTodosType] = useState("all")
 
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
   const [dialogTodo, setDialogTodo] = useState({})
   const [updatedTodo, setUpdatedTodo] = useState({ title: dialogTodo.title, details: dialogTodo.details });
-
 
   const [openUpdateDialog, setOpenUpdateDialog] = useState(false);
 
@@ -49,6 +50,7 @@ export default function TodoList() {
     setTodos(updatedTodos)
     localStorage.setItem('todos', JSON.stringify(updatedTodos))
     setOpenDeleteDialog(false)
+    showHideToast(`تم حذف "${dialogTodo.title}" بنجاح 😁`)
   }
 
   function showDeleteDialog(todo) {
@@ -76,6 +78,7 @@ export default function TodoList() {
     setTodos(updatedTodos)
     localStorage.setItem('todos', JSON.stringify(updatedTodos))
     setOpenUpdateDialog(false)
+    showHideToast('تم تعديل المهمه 🫡')
   }
 
   //Filter Displayed Todos
@@ -123,6 +126,7 @@ export default function TodoList() {
     setTodos(updatedTodos)
     localStorage.setItem('todos', JSON.stringify(updatedTodos))
     setTitleInput("")
+    showHideToast('تم اضافة المهمة بنجاح 😄')
   }
 
   return (

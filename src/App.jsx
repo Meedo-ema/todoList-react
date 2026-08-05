@@ -1,7 +1,8 @@
 import './App.css'
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import TodoList from './components/TodoList'
-import { TododContext } from './assets/contexts/todoContext';
+import { TododContext } from './contexts/todoContext';
+import { ToastProvider } from './contexts/ToastContext'
 
 // To Support rtl
 import rtlPlugin from '@mui/stylis-plugin-rtl';
@@ -46,25 +47,28 @@ let intialTodos = [
     isComplete: false
   },
 ]
+
+
 function App() {
   const [todos, setTodos] = useState(intialTodos)
 
   return (
     <CacheProvider value={cacheRtl}>
       <ThemeProvider theme={theme}>
-        <TododContext.Provider value={{ todos: todos, setTodos: setTodos }}>
-          <div
-            style={{
-              backgroundColor: "#1E1E2F",
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              minHeight: '100vh',
-            }}>
-            <TodoList />
-          </div>
-        </TododContext.Provider>
-
+        <ToastProvider>
+          <TododContext.Provider value={{ todos: todos, setTodos: setTodos }}>
+            <div
+              style={{
+                backgroundColor: "#1E1E2F",
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                minHeight: '100vh',
+              }}>
+              <TodoList />
+            </div>
+          </TododContext.Provider>
+        </ToastProvider>
       </ThemeProvider>
     </CacheProvider>
   )

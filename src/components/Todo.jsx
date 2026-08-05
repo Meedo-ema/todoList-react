@@ -5,7 +5,8 @@ import Grid from '@mui/material/Grid';
 import IconButton from '@mui/material/IconButton';
 
 //context
-import { TododContext } from '../assets/contexts/todoContext';
+import { TododContext } from '../contexts/todoContext';
+import { useToast} from '../contexts/ToastContext';
 import { useContext, useState } from 'react';
 
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -15,7 +16,9 @@ import '../App.css'
 
 function Todo({ todo, showDeleteDialog, showUpdateDialog }) {
   const { todos, setTodos } = useContext(TododContext)
-    // Dialog Events
+  const { showHideToast } = useToast()
+
+  // Dialog Events
   function handleOpenDeleteDialog() {
     showDeleteDialog(todo)
   }
@@ -34,6 +37,7 @@ function Todo({ todo, showDeleteDialog, showUpdateDialog }) {
     })
     setTodos(updatedTodos)
     localStorage.setItem('todos', JSON.stringify(updatedTodos))
+    showHideToast("تم")
   }
 
   return (
