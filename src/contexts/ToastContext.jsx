@@ -1,7 +1,7 @@
 import { createContext, useContext, useState } from "react";
 import MySnackBar from '../components/MySnackBar'
 
-const ToastContext = createContext({})
+ const ToastContext = createContext({})
 
 export const ToastProvider = ({ children }) => {
 

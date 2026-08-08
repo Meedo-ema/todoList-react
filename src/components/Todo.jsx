@@ -5,9 +5,8 @@ import Grid from '@mui/material/Grid';
 import IconButton from '@mui/material/IconButton';
 
 //context
-import { TododContext } from '../contexts/todoContext';
+import { useTodos } from '../contexts/todosContext';
 import { useToast} from '../contexts/ToastContext';
-import { useContext, useState } from 'react';
 
 import DeleteIcon from '@mui/icons-material/Delete';
 import CheckIcon from '@mui/icons-material/Check';
@@ -15,7 +14,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import '../App.css'
 
 function Todo({ todo, showDeleteDialog, showUpdateDialog }) {
-  const { todos, setTodos } = useContext(TododContext)
+  const {todos, dispatch} = useTodos()
   const { showHideToast } = useToast()
 
   // Dialog Events
@@ -29,14 +28,7 @@ function Todo({ todo, showDeleteDialog, showUpdateDialog }) {
   // Dialog Events
 
   function handleCheckClick() {
-    const updatedTodos = todos.map((t) => {
-      if (t.id == todo.id) {
-        t.isComplete = !t.isComplete
-      }
-      return t
-    })
-    setTodos(updatedTodos)
-    localStorage.setItem('todos', JSON.stringify(updatedTodos))
+    dispatch({type: 'toggleCompleted', payload: todo})
     showHideToast("تم")
   }
 

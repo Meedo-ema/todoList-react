@@ -1,7 +1,7 @@
 import './App.css'
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import TodoList from './components/TodoList'
-import { TododContext } from './contexts/todoContext';
+import { TodosContext } from './contexts/todosContext';
 import { ToastProvider } from './contexts/ToastContext'
 
 // To Support rtl
@@ -9,7 +9,7 @@ import rtlPlugin from '@mui/stylis-plugin-rtl';
 import { prefixer } from 'stylis';
 import { CacheProvider } from '@emotion/react';
 import createCache from '@emotion/cache';
-
+import TodosProvider from './contexts/todosContext';
 //OTHER
 import { v4 as uuidv4 } from 'uuid';
 import { useState } from 'react';
@@ -55,8 +55,8 @@ function App() {
   return (
     <CacheProvider value={cacheRtl}>
       <ThemeProvider theme={theme}>
-        <ToastProvider>
-          <TododContext.Provider value={{ todos: todos, setTodos: setTodos }}>
+        <TodosProvider>
+          <ToastProvider>
             <div
               style={{
                 backgroundColor: "#1E1E2F",
@@ -67,8 +67,8 @@ function App() {
               }}>
               <TodoList />
             </div>
-          </TododContext.Provider>
-        </ToastProvider>
+          </ToastProvider>
+        </TodosProvider>
       </ThemeProvider>
     </CacheProvider>
   )
